@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Statement Financial Integration & Indirect Cash Flow Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #cbd5e1;
+            --border-subtle: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            
+            --accent-blue: #0284c7;
+            --accent-blue-bg: #e0f2fe;
+            --accent-purple: #7e22ce;
+            --accent-purple-bg: #f3e8ff;
+            --accent-green: #15803d;
+            --accent-green-bg: #dcfce7;
+            --accent-amber: #b45309;
+            --accent-amber-bg: #fef3c7;
+            --accent-red: #b91c1c;
+            
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* App Header & Author Credits */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .brand h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .brand-sub {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        .brand p {
+            font-size: 0.825rem;
+            color: var(--text-secondary);
+        }
+
+        .author-tag {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            background: var(--accent-purple-bg);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #e9d5ff;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: #f1f5f9;
+            padding: 0.3rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1.15rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: var(--accent-blue);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        /* Layout Main */
+        main {
+            flex: 1;
+            padding: 1.75rem 2rem;
+            max-width: 1680px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Instruction & Case Banner */
+        .instruction-banner {
+            background: var(--accent-blue-bg);
+            border: 1px solid #bae6fd;
+            padding: 0.85rem 1.25rem;
+            border-radius: 10px;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #0369a1;
+        }
+
+        .case-study-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #ffffff;
+            color: var(--accent-blue);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1.5px solid #0284c7;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .case-study-btn:hover {
+            background: var(--accent-blue);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Statement Grid Layout */
+        .statements-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1280px) {
+            .statements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Statement Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04), 0 2px 4px -1px rgba(0,0,0,0.02);
+        }
+
+        .card-header {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+        }
+
+        .card-header.is { border-top: 4px solid var(--accent-blue); }
+        .card-header.bs { border-top: 4px solid var(--accent-purple); }
+        .card-header.cfs { border-top: 4px solid var(--accent-green); }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .badge {
+            font-size: 0.725rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        .badge-blue { background: var(--accent-blue-bg); color: var(--accent-blue); }
+        .badge-purple { background: var(--accent-purple-bg); color: var(--accent-purple); }
+        .badge-green { background: var(--accent-green-bg); color: var(--accent-green); }
+
+        /* Tables Inside Cards */
+        .financial-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.825rem;
+        }
+
+        .financial-table th,
+        .financial-table td {
+            padding: 0.55rem 0.75rem;
+            text-align: right;
+        }
+
+        .financial-table th {
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            background: #f1f5f9;
+        }
+
+        .financial-table td:first-child,
+        .financial-table th:first-child {
+            text-align: left;
+        }
+
+        .row-item {
+            border-bottom: 1px solid var(--border-subtle);
+            transition: background 0.15s ease;
+        }
+
+        .row-indent {
+            padding-left: 1.5rem !important;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .row-disclosure {
+            background: #f8fafc;
+            font-size: 0.775rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .row-subtotal {
+            font-weight: 600;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .row-total {
+            font-weight: 700;
+            font-size: 0.875rem;
+            background: #f1f5f9;
+            border-top: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .num {
+            font-family: var(--font-mono);
+        }
+
+        .num.pos { color: var(--text-primary); }
+        .num.neg { color: var(--accent-red); }
+
+        /* Interactivity Signals & Highlights */
+        .clickable-row {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .clickable-row:hover {
+            background: #f1f5f9;
+        }
+
+        .clickable-row::after {
+            content: '🔍';
+            font-size: 0.7rem;
+            opacity: 0;
+            margin-left: 0.3rem;
+            transition: opacity 0.2s;
+        }
+
+        .clickable-row:hover::after {
+            opacity: 1;
+        }
+
+        .active-link-source {
+            background: var(--accent-amber-bg) !important;
+            outline: 2px solid var(--accent-amber) !important;
+        }
+
+        /* Modal / Pop-up Drawer */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-container {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 720px;
+            padding: 1.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            transform: scale(0.96);
+            transition: transform 0.2s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.open .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover { color: var(--text-primary); }
+
+        .modal-body {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .formula-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-blue);
+            padding: 0.85rem 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            color: #0369a1;
+            font-size: 0.83rem;
+            font-weight: 500;
+            white-space: pre-line;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+            font-size: 0.83rem;
+        }
+
+        .breakdown-table th, .breakdown-table td {
+            padding: 0.55rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+        }
+
+        .breakdown-table th:first-child, .breakdown-table td:first-child {
+            text-align: left;
+        }
+
+        .explanation-text {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        /* Tab 2 Linkage Cards */
+        .links-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        @media (max-width: 1024px) {
+            .links-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.35rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .link-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .link-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 0.85rem;
+        }
+
+        .equation-badge {
+            background: var(--bg-main);
+            border: 1px dashed var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.825rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-bottom: 0.85rem;
+            white-space: pre-line;
+        }
+
+        .usgaap-box {
+            background: #fffbebf8;
+            border: 1px solid #fde68a;
+            border-left: 4px solid var(--accent-amber);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-top: 1.25rem;
+        }
+
+        .usgaap-box h4 {
+            color: var(--accent-amber);
+            font-size: 0.925rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .usgaap-box p {
+            font-size: 0.85rem;
+            color: #78350f;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <h1>Financial Statement Integration & Indirect Cash Flow Suite</h1>
+            <div class="brand-sub">
+                <p>Advanced Accounting & Corporate Finance Analytical Architecture</p>
+                <span class="author-tag">Created by Prof. Adrián R. Cecotto</span>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('statements')">1. Integrated 3-Statement Model</button>
+            <button class="tab-btn" onclick="switchTab('linkages')">2. Core Linkages & US GAAP Rules</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TAB 1: INTEGRATED 3-STATEMENT MODEL -->
+        <div id="tab-statements" class="tab-content active">
+            <div class="instruction-banner">
+                <div>
+                    💡 <strong>Interactive Student Guide:</strong> Click any line item in the <strong>Cash Flow Statement</strong> marked with 🔍 to trace its exact cross-statement origin and formula.
+                </div>
+                <button class="case-study-btn" onclick="openCaseStudyModal()">
+                    📖 Case Study: GlobalTech Industries (2025)
+                </button>
+            </div>
+
+            <div class="statements-grid">
+                
+                <!-- INCOME STATEMENT -->
+                <div class="card">
+                    <div class="card-header is">
+                        <div class="card-title">Income Statement (IS)</div>
+                        <span class="badge badge-blue">FY 2025</span>
+                    </div>
+                    <table class="financial-table">
+                        <thead>
+                            <tr>
+                                <th>Line Item ($M)</th>
+                                <th>2025</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-item">
+                                <td>Revenues</td>
+                                <td class="num pos">1,500.0</td>
+                            </tr>
+                            <tr class="row-item">
+                                <td>Cost of Goods Sold (COGS)</td>
+                                <td class="num neg">(850.0)</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Gross Profit</td>
+                                <td class="num pos">650.0</td>
+                            </tr>
+                            <tr class="row-item">
+                                <td>SG&A Expenses</td>
+                                <td class="num neg">(220.0)</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="is-depreciation">
+                                <td>Depreciation & Amortization</td>
+                                <td class="num neg">(70.0)</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Operating Income (EBIT)</td>
+                                <td class="num pos">360.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="is-interest">
+                                <td>Interest Expense</td>
+                                <td class="num neg">(40.0)</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Pre-Tax Income (EBT)</td>
+                                <td class="num pos">320.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="is-tax">
+                                <td>Income Tax Expense (25%)</td>
+                                <td class="num neg">(80.0)</td>
+                            </tr>
+                            <tr class="row-total highlightable" id="is-net-income">
+                                <td>Net Income</td>
+                                <td class="num pos">240.0</td>
+                            </tr>
+                            <!-- EARNINGS ALLOCATION SECTION -->
+                            <tr class="row-item row-indent highlightable" id="is-dividends">
+                                <td>↳ Less: Cash Dividends Declared (20.83% Payout)</td>
+                                <td class="num neg">(50.0)</td>
+                            </tr>
+                            <tr class="row-item row-indent highlightable" id="is-retained-addition">
+                                <td>↳ Addition to Retained Earnings (79.17% Retained)</td>
+                                <td class="num pos">190.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- BALANCE SHEET -->
+                <div class="card">
+                    <div class="card-header bs">
+                        <div class="card-title">Balance Sheet (BS)</div>
+                        <span class="badge badge-purple">Comparative</span>
+                    </div>
+                    <table class="financial-table">
+                        <thead>
+                            <tr>
+                                <th>Line Item ($M)</th>
+                                <th>2024</th>
+                                <th>2025</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-item highlightable" id="bs-cash">
+                                <td>Cash & Cash Equivalents</td>
+                                <td class="num pos">100.0</td>
+                                <td class="num pos">255.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-ar">
+                                <td>Accounts Receivable (A/R)</td>
+                                <td class="num pos">180.0</td>
+                                <td class="num pos">220.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-inv">
+                                <td>Inventory</td>
+                                <td class="num pos">220.0</td>
+                                <td class="num pos">250.0</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Total Current Assets</td>
+                                <td class="num pos">500.0</td>
+                                <td class="num pos">725.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-ppe">
+                                <td>Gross Property, Plant & Equipment</td>
+                                <td class="num pos">1,000.0</td>
+                                <td class="num pos">1,180.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-accum-dep">
+                                <td>Accumulated Depreciation</td>
+                                <td class="num neg">(300.0)</td>
+                                <td class="num neg">(355.0)</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Net Property, Plant & Equipment</td>
+                                <td class="num pos">700.0</td>
+                                <td class="num pos">825.0</td>
+                            </tr>
+                            <tr class="row-total">
+                                <td>TOTAL ASSETS</td>
+                                <td class="num pos">1,200.0</td>
+                                <td class="num pos">1,550.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-ap">
+                                <td>Accounts Payable (A/P)</td>
+                                <td class="num pos">120.0</td>
+                                <td class="num pos">150.0</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Total Current Liabilities</td>
+                                <td class="num pos">120.0</td>
+                                <td class="num pos">150.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-debt">
+                                <td>Long-Term Debt</td>
+                                <td class="num pos">450.0</td>
+                                <td class="num pos">520.0</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td>Total Liabilities</td>
+                                <td class="num pos">570.0</td>
+                                <td class="num pos">670.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-common-stock">
+                                <td>Common Stock & APIC</td>
+                                <td class="num pos">400.0</td>
+                                <td class="num pos">460.0</td>
+                            </tr>
+                            <tr class="row-item highlightable" id="bs-retained">
+                                <td>Retained Earnings</td>
+                                <td class="num pos">230.0</td>
+                                <td class="num pos">420.0</td>
+                            </tr>
+                            <tr class="row-total">
+                                <td>TOTAL LIAB. & EQUITY</td>
+                                <td class="num pos">1,200.0</td>
+                                <td class="num pos">1,550.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- CASH FLOW STATEMENT (INDIRECT METHOD) -->
+                <div class="card">
+                    <div class="card-header cfs">
+                        <div class="card-title">Cash Flow Statement (CFS)</div>
+                        <span class="badge badge-green">Indirect Method</span>
+                    </div>
+                    <table class="financial-table">
+                        <thead>
+                            <tr>
+                                <th>Cash Flow Line Item ($M)</th>
+                                <th>2025</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- OPERATING ACTIVITIES -->
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('net-income')">
+                                <td><strong>Net Income</strong></td>
+                                <td class="num pos">240.0</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('depreciation')">
+                                <td>(+) Depreciation & Amortization</td>
+                                <td class="num pos">70.0</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('gain-sale')">
+                                <td>(–) Gain on Sale of PP&E</td>
+                                <td class="num neg">(5.0)</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('ar-change')">
+                                <td>(–) Change in Accounts Receivable</td>
+                                <td class="num neg">(40.0)</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('inv-change')">
+                                <td>(–) Change in Inventory</td>
+                                <td class="num neg">(30.0)</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('ap-change')">
+                                <td>(+) Change in Accounts Payable</td>
+                                <td class="num pos">30.0</td>
+                            </tr>
+                            <tr class="row-subtotal highlightable" id="cfo-total">
+                                <td><strong>Cash Flow from Operations (CFO)</strong></td>
+                                <td class="num pos"><strong>265.0</strong></td>
+                            </tr>
+                            <!-- REQUIRED US GAAP DISCLOSURES INSIDE OPERATING ACTIVITIES -->
+                            <tr class="row-disclosure">
+                                <td colspan="2"><em>* Required Supplemental CFO Disclosures (US GAAP ASC 230):</em></td>
+                            </tr>
+                            <tr class="row-disclosure">
+                                <td style="padding-left:1.25rem;">• Cash Paid for Interest Expense</td>
+                                <td class="num neg">$40.0M</td>
+                            </tr>
+                            <tr class="row-disclosure">
+                                <td style="padding-left:1.25rem;">• Cash Paid for Income Taxes</td>
+                                <td class="num neg">$80.0M</td>
+                            </tr>
+                            
+                            <!-- INVESTING ACTIVITIES -->
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('capex')">
+                                <td>(–) Capital Expenditures (CapEx)</td>
+                                <td class="num neg">(200.0)</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('asset-sale')">
+                                <td>(+) Proceeds from Sale of PP&E</td>
+                                <td class="num pos">20.0</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td><strong>Cash Flow from Investing (CFI)</strong></td>
+                                <td class="num neg"><strong>(180.0)</strong></td>
+                            </tr>
+
+                            <!-- FINANCING ACTIVITIES -->
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('debt-issuance')">
+                                <td>(+) Issuance of Long-Term Debt</td>
+                                <td class="num pos">100.0</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('debt-repayment')">
+                                <td>(–) Repayment of Debt Principal</td>
+                                <td class="num neg">(30.0)</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('equity-issuance')">
+                                <td>(+) Issuance of Common Stock</td>
+                                <td class="num pos">60.0</td>
+                            </tr>
+                            <tr class="row-item interactive clickable-row" onclick="showExplanation('dividends')">
+                                <td>(–) Cash Dividends Paid</td>
+                                <td class="num neg">(60.0)</td>
+                            </tr>
+                            <tr class="row-subtotal">
+                                <td><strong>Cash Flow from Financing (CFF)</strong></td>
+                                <td class="num pos"><strong>70.0</strong></td>
+                            </tr>
+
+                            <!-- NET CHANGE IN CASH & RECONCILIATION -->
+                            <tr class="row-total" style="background: var(--accent-green-bg);">
+                                <td><strong>Net Change in Cash (NCF = CFO + CFI + CFF)</strong></td>
+                                <td class="num pos"><strong>155.0</strong></td>
+                            </tr>
+                            <tr class="row-item highlightable" id="cfs-beginning-cash">
+                                <td>(+) Beginning Cash Balance (BS 2024)</td>
+                                <td class="num pos">100.0</td>
+                            </tr>
+                            <tr class="row-total interactive clickable-row" onclick="showExplanation('cash-reconciliation')" style="border-bottom: 3px double var(--accent-green);">
+                                <td><strong>(=) Ending Cash Balance (BS 2025)</strong></td>
+                                <td class="num pos"><strong>255.0</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: LINKAGES & THEORY -->
+        <div id="tab-linkages" class="tab-content">
+            <div class="links-container">
+                
+                <!-- LINK 1: RETAINED EARNINGS & DIVIDEND PAYOUT -->
+                <div class="link-card">
+                    <h3>1. Retained Earnings & Dividend Payout Mechanics</h3>
+                    <p>Net Income from the IS is allocated between Cash Dividends and Retained Earnings. Dividends can be determined via the target Dividend Payout Ratio or by solving the Retained Earnings rollforward.</p>
+                    <div class="equation-badge">
+Dividend Payout Ratio = Dividends Declared / Net Income
+Ending Retained Earnings = Beginning RE + Net Income – Dividends Declared
+                    </div>
+                    <p><strong>Numerical Proof (FY 2025):</strong></p>
+                    <p><code>Dividends Declared = $240.0M Net Income × 20.83% = $50.0M</code><br>
+                       <code>Ending RE = $230.0M (2024 RE) + $240.0M (NI) – $50.0M (Dividends) = $420.0M</code></p>
+                </div>
+
+                <!-- LINK 2: CAPEX & PP&E ROLLFORWARD -->
+                <div class="link-card">
+                    <h3>2. CapEx & Net/Gross PP&E Rollforward</h3>
+                    <p>Capital Expenditures represent additions to fixed assets. CapEx can be calculated using either Gross PP&E changes or Net PP&E adjusted for Depreciation and Asset Disposals.</p>
+                    <div class="equation-badge">
+CapEx = Gross PP&E 2025 – Gross PP&E 2024 + Gross Cost of Assets Sold
+CapEx = Net PP&E 2025 – Net PP&E 2024 + Depreciation Expense + Net Book Value Sold
+                    </div>
+                    <p><strong>Numerical Proof (FY 2025):</strong></p>
+                    <p><code>CapEx = $825M (Net PP&E 2025) – $700M (Net PP&E 2024) + $70M (Dep) + $5M (NBV Sold) = $200M</code></p>
+                </div>
+
+                <!-- LINK 3: DEBT ROLLFORWARD & NEW ISSUANCE -->
+                <div class="link-card">
+                    <h3>3. Debt Rollforward & Financing Flow Integration</h3>
+                    <p>The net change in debt on the Balance Sheet is the resultant vector of gross principal issuances and principal repayments made during the fiscal year.</p>
+                    <div class="equation-badge">
+Ending Debt = Beginning Debt + New Debt Issued – Debt Repayments
+New Debt Issued = Ending Debt – Beginning Debt + Debt Repayments
+                    </div>
+                    <p><strong>Numerical Proof (FY 2025):</strong></p>
+                    <p><code>$520.0M (2025 Debt) = $450.0M (2024 Debt) + $100.0M (New Debt) – $30.0M (Repaid)</code><br>
+                       <code>New Debt Issued = $520M – $450M + $30M = $100.0M</code></p>
+                </div>
+
+                <!-- LINK 4: CASH RECONCILIATION -->
+                <div class="link-card">
+                    <h3>4. Cash Reconciliation Tie-Out (CFS ➔ BS)</h3>
+                    <p>The Cash Flow Statement provides the detailed cash activity explaining the period-over-period movement in the Balance Sheet Cash account.</p>
+                    <div class="equation-badge">
+Ending Cash (BS 2025) = Beginning Cash (BS 2024) + Net Cash Flow (NCF)
+NCF = Operating Cash Flow (CFO) + Investing Cash Flow (CFI) + Financing Cash Flow (CFF)
+                    </div>
+                    <p><strong>Numerical Proof (FY 2025):</strong></p>
+                    <p><code>$100.0M (Cash 2024) + [$265M (CFO) – $180M (CFI) + $70M (CFF)] = $255.0M (Cash 2025)</code></p>
+                </div>
+
+            </div>
+
+            <!-- US GAAP VS IFRS TAXES & INTEREST BOX -->
+            <div class="usgaap-box">
+                <h4>🏛️ US GAAP (ASC 230) Standards: Location & Presentation of Taxes and Interest</h4>
+                <p>
+                    <strong>1. Why are Interest Expense and Income Tax Expenses kept inside Net Income rather than listed below it in Indirect CFO?</strong><br>
+                    Under US GAAP (ASC 230), the Indirect Method begins with <strong>Net Income</strong>. Because Net Income already incorporates Interest Expense ($-40M) and Income Tax Expense ($-80M) on an accrual basis, no adjustments are needed in the CFO reconciliation line items unless there are unpaid accrued taxes/interest on the Balance Sheet. Placing them separately under Net Income in the statement would double-count them.<br><br>
+                    <strong>2. Required Supplemental Disclosures:</strong><br>
+                    US GAAP strictly requires that entities using the Indirect Method disclose the actual <strong>Cash Paid for Interest</strong> and <strong>Cash Paid for Income Taxes</strong> either at the bottom of the Cash Flow Statement or in the financial statement footnotes. Both MUST remain classified within <strong>Cash Flow from Operating Activities (CFO)</strong>.<br><br>
+                    <em>IFRS Comparison:</em> Under IFRS (IAS 7), Interest Paid can be classified as Operating or Financing, and Taxes Paid can be classified as Investing/Financing if directly attributable to specific asset transactions.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Financial Statement Integration Educational Suite • Designed for Corporate Finance & Accounting Instruction • <strong>Prof. Adrián R. Cecotto</strong></p>
+    </footer>
+
+    <!-- DYNAMIC EXPLANATION MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Line Item Trazability</div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Inserted Dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CASE STUDY NARRATIVE MODAL -->
+    <div class="modal-overlay" id="case-modal-overlay">
+        <div class="modal-container" style="max-width: 750px;">
+            <div class="modal-header">
+                <div class="modal-title" style="color: var(--accent-blue);">📖 Case Study: GlobalTech Industries (FY 2025 Operational Context)</div>
+                <button class="close-btn" onclick="closeCaseStudyModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="explanation-text" style="margin-top:0;">
+                    <strong>Executive Summary for Students:</strong><br>
+                    GlobalTech Industries is a mid-sized advanced manufacturing enterprise undergoing a strategic production capacity expansion during FY 2025. This case study demonstrates how operational earnings, working capital investments, capital asset acquisitions, and capital structure financing decisions interconnect across all three financial statements.
+                </div>
+                
+                <p style="margin-top: 1rem;"><strong>Key Operating & Financial Highlights (2025):</strong></p>
+                <ul style="margin-left: 1.25rem; margin-top: 0.5rem; line-height: 1.7;">
+                    <li><strong>Operating Performance:</strong> Generated $1,500M in net revenues and achieved $240M in Net Income after accounting for $70M in Depreciation and $80M in Income Taxes.</li>
+                    <li><strong>Capital Expansion (CapEx):</strong> Invested $200M in new automated equipment to scale manufacturing capacity. Concurrently, retired obsolete equipment with an original cost of $20M (accumulated depreciation of $15M, Net Book Value of $5M) for $20M cash, realizing a $5M gain on sale.</li>
+                    <li><strong>Working Capital Investment:</strong> Operations required cash absorption into working capital, as Accounts Receivable expanded by $40M and Inventories grew by $30M, partially offset by a $30M increase in Accounts Payable financing.</li>
+                    <li><strong>Capital Raising & Distribution:</strong> Financed growth through a $100M new long-term bond issuance and $60M in equity capital, repaid $30M of existing debt principal, and paid $60M in total cash dividends ($10M declared in prior period + $50M declared in 2025).</li>
+                </ul>
+
+                <div class="formula-box" style="margin-top: 1rem;">
+                    <strong>Learning Objective:</strong> Trace how $240M in accrual Net Income translates into $265M in Operating Cash Flow, $155M in Net Cash Expansion, and a final Balance Sheet cash balance of $255M.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Line Item Explanations & Sources Data
+        const explanations = {
+            'net-income': {
+                title: 'Net Income ➔ Starting Point for Indirect Operating Cash Flow',
+                formula: 'Net Income = Bottom Line of Income Statement ($240.0M)',
+                sources: [
+                    { statement: 'Income Statement', item: 'Net Income (2025)', value: '$240.0M' },
+                    { statement: 'Balance Sheet', item: 'Retained Earnings Addition', value: '+$190.0M (Net of $50M div)' }
+                ],
+                text: 'Under the Indirect Method, Net Income serves as the unadjusted baseline. Because Net Income includes non-cash expenses (like depreciation) and accrual revenue/expense timings, adjustments are applied to convert accrual earnings to cash generated by operations.',
+                highlights: ['is-net-income', 'bs-retained']
+            },
+            'depreciation': {
+                title: 'Depreciation & Amortization ➔ Non-Cash Expense Adjustment',
+                formula: 'Add Back (+): Non-cash expense previously deducted in Net Income\nNet PP&E Δ = CapEx ($200M) – Depreciation ($70M) – NBV Sold ($5M) = +$125M',
+                sources: [
+                    { statement: 'Income Statement', item: 'Depreciation Expense', value: '$70.0M' },
+                    { statement: 'Balance Sheet', item: 'Accumulated Depreciation Delta', value: '+$55.0M Net ($70M exp - $15M written off)' }
+                ],
+                text: 'Depreciation reduced Net Income by $70M on the Income Statement, but <strong>no actual cash left the business</strong>. Therefore, it is added back in full under Operating Cash Flow.',
+                highlights: ['is-depreciation', 'bs-accum-dep']
+            },
+            'gain-sale': {
+                title: 'Gain on Sale of PP&E ➔ Non-Operating Income Elimination',
+                formula: 'Deduct (–): Remove accounting gain from CFO to avoid double counting\nGain on Sale = Proceeds ($20M) – Net Book Value Sold ($5M) = $5.0M',
+                sources: [
+                    { statement: 'Income Statement', item: 'Included in Pre-Tax Income', value: '$5.0M' },
+                    { statement: 'Cash Flow Statement', item: 'CFI: Full Cash Proceeds', value: '$20.0M' }
+                ],
+                text: 'An asset with $5M Net Book Value was sold for $20M cash, generating a $5M gain in Net Income. Because the <strong>entire $20M cash inflow is recognized in Investing Activities (CFI)</strong>, the $5M accounting gain is subtracted from CFO to avoid double counting.',
+                highlights: ['is-net-income']
+            },
+            'ar-change': {
+                title: 'Change in Accounts Receivable (A/R) ➔ Working Capital Adjustment',
+                formula: 'Δ A/R = A/R 2025 ($220M) – A/R 2024 ($180M) = +$40M Asset Increase',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Accounts Receivable 2024', value: '$180.0M' },
+                    { statement: 'Balance Sheet', item: 'Accounts Receivable 2025', value: '$220.0M' }
+                ],
+                text: 'A $40M increase in A/R implies that $40M of revenue recognized in Net Income has not yet been collected in cash. This uncollected revenue is subtracted from Net Income.',
+                highlights: ['bs-ar']
+            },
+            'inv-change': {
+                title: 'Change in Inventory ➔ Working Capital Adjustment',
+                formula: 'Δ Inventory = Inv 2025 ($250M) – Inv 2024 ($220M) = +$30M Asset Increase',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Inventory 2024', value: '$220.0M' },
+                    { statement: 'Balance Sheet', item: 'Inventory 2025', value: '$250.0M' }
+                ],
+                text: 'Inventory grew by $30M. Cash was spent to manufacture or purchase these goods, but since they remain unsold, the cash outflow is not yet reflected in COGS. Therefore, $30M is subtracted in CFO.',
+                highlights: ['bs-inv']
+            },
+            'ap-change': {
+                title: 'Change in Accounts Payable (A/P) ➔ Working Capital Adjustment',
+                formula: 'Δ A/P = A/P 2025 ($150M) – A/P 2024 ($120M) = +$30M Liability Increase',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Accounts Payable 2024', value: '$120.0M' },
+                    { statement: 'Balance Sheet', item: 'Accounts Payable 2025', value: '$150.0M' }
+                ],
+                text: 'A $30M increase in supplier credit (A/P) means the company deferred cash payments for expenses incurred. Preserving cash creates a positive adjustment (+30M) to Net Income.',
+                highlights: ['bs-ap']
+            },
+            'capex': {
+                title: 'Capital Expenditures (CapEx) ➔ Property, Plant & Equipment Additions',
+                formula: 'CapEx = Gross PP&E 2025 – Gross PP&E 2024 + Original Cost of Assets Sold\nCapEx = $1,180M – $1,000M + $20M = $200.0M\nAlternative Net Formula:\nCapEx = Net PP&E 2025 ($825M) – Net PP&E 2024 ($700M) + Dep ($70M) + NBV Sold ($5M) = $200.0M',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Gross PP&E 2024', value: '$1,000.0M' },
+                    { statement: 'Balance Sheet', item: 'Gross PP&E 2025', value: '$1,180.0M' }
+                ],
+                text: 'The company invested $200M in new capital equipment. CapEx is a direct cash outflow under Investing Activities.',
+                highlights: ['bs-ppe']
+            },
+            'asset-sale': {
+                title: 'Proceeds from Sale of PP&E ➔ Investing Cash Inflow',
+                formula: 'Proceeds = Net Book Value Sold ($5M) + Gain on Sale ($5M) = $20.0M Cash',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Gross PP&E Disposed', value: '–$20.0M' },
+                    { statement: 'Balance Sheet', item: 'Accum. Dep. Disposed', value: '–$15.0M' },
+                    { statement: 'Income Statement', item: 'Gain on Sale', value: '+$5.0M' }
+                ],
+                text: 'Reflects total cash collected from selling equipment. The original cost ($20M) and accumulated depreciation ($15M) were removed from the Balance Sheet, leaving a NBV of $5M. Selling for $20M cash creates a $20M CFI inflow.',
+                highlights: ['bs-ppe', 'bs-accum-dep']
+            },
+            'debt-issuance': {
+                title: 'Issuance of Long-Term Debt ➔ Financing Cash Inflow',
+                formula: 'New Debt Issued = Ending Debt ($520M) – Beginning Debt ($450M) + Repayments ($30M) = $100.0M',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Long-Term Debt 2024', value: '$450.0M' },
+                    { statement: 'Balance Sheet', item: 'Long-Term Debt 2025', value: '$520.0M' }
+                ],
+                text: 'The company issued $100M of new debt obligations during the year, providing cash for financing operations and capital investments.',
+                highlights: ['bs-debt']
+            },
+            'debt-repayment': {
+                title: 'Repayment of Long-Term Debt Principal ➔ Financing Outflow',
+                formula: 'Debt Principal Repaid = $30.0M Direct Cash Outflow',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Net Balance Sheet Debt Change', value: '+$70.0M ($100M Issued - $30M Repaid)' }
+                ],
+                text: 'Repaying principal on loans or bonds is a financing cash outflow. (Note: Interest payments are classified under CFO as required by US GAAP).',
+                highlights: ['bs-debt']
+            },
+            'equity-issuance': {
+                title: 'Issuance of Common Stock ➔ Equity Financing Inflow',
+                formula: 'Common Stock Δ = Common Stock 2025 ($460M) – Common Stock 2024 ($400M) = $60.0M',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Common Stock & APIC 2024', value: '$400.0M' },
+                    { statement: 'Balance Sheet', item: 'Common Stock & APIC 2025', value: '$460.0M' }
+                ],
+                text: 'The company issued new equity shares to market investors, receiving $60M in cash financing.',
+                highlights: ['bs-common-stock']
+            },
+            'dividends': {
+                title: 'Cash Dividends Paid ➔ Financing Outflow & RE Linkage',
+                formula: 'Dividends Declared = Net Income ($240M) × Payout Ratio (20.83%) = $50.0M\nDividends Paid = Dividends Declared ($50M) + Beginning Dividends Payable Delta ($10M) = $60.0M\nEnding RE = Beg RE ($230M) + NI ($240M) – Dividends Declared ($50M) = $420.0M',
+                sources: [
+                    { statement: 'Income Statement', item: 'Dividends Declared', value: '$50.0M' },
+                    { statement: 'Balance Sheet', item: 'Retained Earnings 2024', value: '$230.0M' },
+                    { statement: 'Balance Sheet', item: 'Retained Earnings 2025', value: '$420.0M' }
+                ],
+                text: 'Dividends are a profit distribution to shareholders, reducing Equity on the Balance Sheet. Dividends can be calculated via the firm\'s <strong>Payout Ratio</strong> or by solving for the Retained Earnings rollforward. In this model, total cash paid ($60M) incorporates $10M of prior period declared payouts.',
+                highlights: ['is-dividends', 'bs-retained']
+            },
+            'cash-reconciliation': {
+                title: 'Ending Cash Balance ➔ The Final 3-Statement Tie-Out',
+                formula: 'Ending Cash = Beginning Cash ($100M) + Net Cash Flow ($155M) = $255.0M',
+                sources: [
+                    { statement: 'Balance Sheet', item: 'Cash & Cash Equivalents 2024', value: '$100.0M' },
+                    { statement: 'Balance Sheet', item: 'Cash & Cash Equivalents 2025', value: '$255.0M' },
+                    { statement: 'Cash Flow Statement', item: 'Net Cash Flow (CFO+CFI+CFF)', value: '$155.0M' }
+                ],
+                text: '<strong>Complete Reconciliation:</strong> The ending line of the Cash Flow Statement ($255M) exactly equals the Cash balance on the 2025 Balance Sheet.',
+                highlights: ['bs-cash', 'cfs-beginning-cash']
+            }
+        };
+
+        // Navigation Tabs
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (tabId === 'statements') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tab-statements').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tab-linkages').classList.add('active');
+            }
+        }
+
+        // Show Line Item Modal
+        function showExplanation(key) {
+            const data = explanations[key];
+            if (!data) return;
+
+            clearHighlights();
+            if (data.highlights) {
+                data.highlights.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('active-link-source');
+                });
+            }
+
+            document.getElementById('modal-title').innerText = data.title;
+            
+            let sourcesHtml = data.sources.map(s => `
+                <tr>
+                    <td><span class="badge ${s.statement === 'Income Statement' ? 'badge-blue' : (s.statement === 'Balance Sheet' ? 'badge-purple' : 'badge-green')}">${s.statement}</span></td>
+                    <td>${s.item}</td>
+                    <td class="num">${s.value}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('modal-body').innerHTML = `
+                <p><strong>Formulas & Exact Calculations:</strong></p>
+                <div class="formula-box">${data.formula}</div>
+                
+                <p><strong>Cross-Statement Source Line Items:</strong></p>
+                <table class="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>Statement</th>
+                            <th>Line Item Source</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sourcesHtml}
+                    </tbody>
+                </table>
+
+                <div class="explanation-text">
+                    <strong>Financial Accounting Logic:</strong><br>
+                    ${data.text}
+                </div>
+            `;
+
+            document.getElementById('modal-overlay').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('open');
+            clearHighlights();
+        }
+
+        function openCaseStudyModal() {
+            document.getElementById('case-modal-overlay').classList.add('open');
+        }
+
+        function closeCaseStudyModal() {
+            document.getElementById('case-modal-overlay').classList.remove('open');
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.highlightable').forEach(el => {
+                el.classList.remove('active-link-source');
+            });
+        }
+
+        document.getElementById('modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('case-modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeCaseStudyModal();
+        });
+    </script>
+</body>
+</html>
